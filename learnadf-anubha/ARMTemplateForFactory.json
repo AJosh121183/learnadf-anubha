@@ -392,7 +392,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": {
-							"value": "@{dataset().FileName}.csv",
+							"value": "@{dataset().FileName}",
 							"type": "Expression"
 						},
 						"fileSystem": "imdb"
@@ -478,7 +478,7 @@
 					"location": {
 						"type": "HttpServerLocation",
 						"relativeUrl": {
-							"value": "@{dataset().FileName}.csv",
+							"value": "@{dataset().FileName}",
 							"type": "Expression"
 						}
 					},
