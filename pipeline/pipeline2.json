@@ -1,0 +1,105 @@
+{
+	"name": "pipeline2",
+	"properties": {
+		"activities": [
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://api.manage-roadworks.service.gov.uk/v1/work/authenticate",
+					"method": "POST",
+					"headers": {
+						"Content-Type": "application/json",
+						"accept": "application/json"
+					},
+					"body": {
+						"emailAddress": "SSISStreetManagerAPI@severntrent.co.uk",
+						"password": "zzCrmssis!365"
+					}
+				}
+			},
+			{
+				"name": "Ingest Rest Data",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Web1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET",
+						"additionalHeaders": {
+							"idToken": {
+								"value": "@{activity('Web1').output.idToken}",
+								"type": "Expression"
+							},
+							"organisationReference": {
+								"value": "@{activity('Web1').output.organisationreference}",
+								"type": "Expression"
+							},
+							"accessToken": {
+								"value": "@{activity('Web1').output.accessToken}",
+								"type": "Expression"
+							},
+							"refreshToken": {
+								"value": "@{activity('Web1').output.refreshToken}",
+								"type": "Expression"
+							}
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "RestResource1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2020-09-17T16:27:05Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

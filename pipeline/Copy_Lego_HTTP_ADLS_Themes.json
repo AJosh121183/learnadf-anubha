@@ -1,0 +1,78 @@
+{
+	"name": "Copy_Lego_HTTP_ADLS_Themes",
+	"properties": {
+		"description": "Copy Themes.csv.gz from rebrickable to ADLS",
+		"activities": [
+			{
+				"name": "Copy_354",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "title.basics.tsv.gz"
+					},
+					{
+						"name": "Destination",
+						"value": "imdb//title.basics.tsv"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings",
+							"skipLineCount": 0
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"logStorageSettings": {
+						"linkedServiceName": {
+							"referenceName": "ADLS_anubhaadls",
+							"type": "LinkedServiceReference"
+						},
+						"path": "imdb/errors/title"
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "HTTP_imdb_title",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ADLS_imdb_title",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2020-09-16T14:57:27Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

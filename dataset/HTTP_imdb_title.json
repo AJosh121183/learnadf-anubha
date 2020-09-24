@@ -1,0 +1,62 @@
+{
+	"name": "HTTP_imdb_title",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "HTTP_Lego",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "title.basics.tsv.gz"
+			},
+			"columnDelimiter": "\t",
+			"rowDelimiter": "\n",
+			"compressionCodec": "gzip",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "tconst",
+				"type": "String"
+			},
+			{
+				"name": "titleType",
+				"type": "String"
+			},
+			{
+				"name": "primaryTitle",
+				"type": "String"
+			},
+			{
+				"name": "originalTitle",
+				"type": "String"
+			},
+			{
+				"name": "isAdult",
+				"type": "String"
+			},
+			{
+				"name": "startYear",
+				"type": "String"
+			},
+			{
+				"name": "endYear",
+				"type": "String"
+			},
+			{
+				"name": "runtimeMinutes",
+				"type": "String"
+			},
+			{
+				"name": "genres",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

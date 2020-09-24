@@ -1,0 +1,44 @@
+{
+	"name": "orchestration_imdb",
+	"properties": {
+		"description": "orchestrating pipelines that executes the individual pipelines and copy and transform the data",
+		"activities": [
+			{
+				"name": "Copy_Lego_HTTP_ADLS_Themes",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Copy_Lego_HTTP_ADLS_Themes",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "IMDB_ADLS_to_IMDB_ASQL",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Copy_Lego_HTTP_ADLS_Themes",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "IMDB_ADLS_to_IMDB_ASQL",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2020-09-16T12:02:05Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
