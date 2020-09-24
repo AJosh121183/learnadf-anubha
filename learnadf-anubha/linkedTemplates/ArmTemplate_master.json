@@ -1,0 +1,126 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "learnadf-anubha"
+		},
+		"ADLS_anubhaadls_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ADLS_anubhaadls'"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
+		"RESTcall_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'RESTcall'"
+		},
+		"RestCallToPermits_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'RestCallToPermits'"
+		},
+		"TMA_AzureBlobStorage_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'TMA_AzureBlobStorage'"
+		},
+		"anubhaASQL_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'anubhaASQL'"
+		},
+		"ADLS_anubhaadls_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://anubhaadls.dfs.core.windows.net"
+		},
+		"HTTP_Lego_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://datasets.imdbws.com/"
+		},
+		"RESTcall_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://api.manage-roadworks.service.gov.uk"
+		},
+		"RESTcall_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "SSISStreetManagerAPI@severntrent.co.uk"
+		},
+		"RestCallToPermits_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://api.manage-roadworks.service.gov.uk"
+		},
+		"RestCallToPermits_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "SSISStreetManagerAPI@severntrent.co.uk"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "learnadf-anubha_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"ADLS_anubhaadls_accountKey": {
+						"value": "[parameters('ADLS_anubhaadls_accountKey')]"
+					},
+					"AzureBlobStorage1_connectionString": {
+						"value": "[parameters('AzureBlobStorage1_connectionString')]"
+					},
+					"RESTcall_password": {
+						"value": "[parameters('RESTcall_password')]"
+					},
+					"RestCallToPermits_password": {
+						"value": "[parameters('RestCallToPermits_password')]"
+					},
+					"TMA_AzureBlobStorage_connectionString": {
+						"value": "[parameters('TMA_AzureBlobStorage_connectionString')]"
+					},
+					"anubhaASQL_connectionString": {
+						"value": "[parameters('anubhaASQL_connectionString')]"
+					},
+					"ADLS_anubhaadls_properties_typeProperties_url": {
+						"value": "[parameters('ADLS_anubhaadls_properties_typeProperties_url')]"
+					},
+					"HTTP_Lego_properties_typeProperties_url": {
+						"value": "[parameters('HTTP_Lego_properties_typeProperties_url')]"
+					},
+					"RESTcall_properties_typeProperties_url": {
+						"value": "[parameters('RESTcall_properties_typeProperties_url')]"
+					},
+					"RESTcall_properties_typeProperties_userName": {
+						"value": "[parameters('RESTcall_properties_typeProperties_userName')]"
+					},
+					"RestCallToPermits_properties_typeProperties_url": {
+						"value": "[parameters('RestCallToPermits_properties_typeProperties_url')]"
+					},
+					"RestCallToPermits_properties_typeProperties_userName": {
+						"value": "[parameters('RestCallToPermits_properties_typeProperties_userName')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

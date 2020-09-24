@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "learnadf-anubha"
+		},
+		"ADLS_anubhaadls_accountKey": {
+			"value": ""
+		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"RESTcall_password": {
+			"value": ""
+		},
+		"RestCallToPermits_password": {
+			"value": ""
+		},
+		"TMA_AzureBlobStorage_connectionString": {
+			"value": ""
+		},
+		"anubhaASQL_connectionString": {
+			"value": ""
+		},
+		"ADLS_anubhaadls_properties_typeProperties_url": {
+			"value": "https://anubhaadls.dfs.core.windows.net"
+		},
+		"HTTP_Lego_properties_typeProperties_url": {
+			"value": "https://datasets.imdbws.com/"
+		},
+		"RESTcall_properties_typeProperties_url": {
+			"value": "https://api.manage-roadworks.service.gov.uk"
+		},
+		"RESTcall_properties_typeProperties_userName": {
+			"value": "SSISStreetManagerAPI@severntrent.co.uk"
+		},
+		"RestCallToPermits_properties_typeProperties_url": {
+			"value": "https://api.manage-roadworks.service.gov.uk"
+		},
+		"RestCallToPermits_properties_typeProperties_userName": {
+			"value": "SSISStreetManagerAPI@severntrent.co.uk"
+		}
+	}
+}
