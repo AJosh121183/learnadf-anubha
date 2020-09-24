@@ -61,116 +61,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/VariableTesting')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Set variable1",
-						"type": "SetVariable",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "Files",
-							"value": [
-								"colors",
-								"inventories",
-								"inventory_parts",
-								"part_categories",
-								"parts",
-								"sets",
-								"themes"
-							]
-						}
-					},
-					{
-						"name": "If Condition1",
-						"type": "IfCondition",
-						"dependsOn": [
-							{
-								"activity": "Set variable1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"expression": {
-								"value": "@pipeline().parameters.LoadAllFiles",
-								"type": "Expression"
-							},
-							"ifTrueActivities": [
-								{
-									"name": "Append Inventry Sets",
-									"type": "AppendVariable",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "Files",
-										"value": "inventory_sets"
-									}
-								},
-								{
-									"name": "Append part_relationships",
-									"type": "AppendVariable",
-									"dependsOn": [
-										{
-											"activity": "Append Inventry Sets",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "Files",
-										"value": "part_relationships"
-									}
-								}
-							]
-						}
-					},
-					{
-						"name": "Set ListOfFiles",
-						"type": "SetVariable",
-						"dependsOn": [
-							{
-								"activity": "If Condition1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "ListOfFiles",
-							"value": {
-								"value": "Load@{length(variables('Files'))} files : @{join(variables('Files'), ',')}",
-								"type": "Expression"
-							}
-						}
-					}
-				],
-				"parameters": {
-					"LoadAllFiles": {
-						"type": "String"
-					}
-				},
-				"variables": {
-					"Files": {
-						"type": "Array"
-					},
-					"ListOfFiles": {
-						"type": "String"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/ADLS_anubhaadls')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -725,6 +615,135 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/IMDB_Titles')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/VariableTesting')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "Files",
+							"value": [
+								"colors",
+								"inventories",
+								"inventory_parts",
+								"part_categories",
+								"parts",
+								"sets",
+								"themes"
+							]
+						}
+					},
+					{
+						"name": "If Condition1",
+						"type": "IfCondition",
+						"dependsOn": [
+							{
+								"activity": "Set variable1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@pipeline().parameters.LoadAllFiles",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "Append Inventry Sets",
+									"type": "AppendVariable",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "Files",
+										"value": "inventory_sets"
+									}
+								},
+								{
+									"name": "Append part_relationships",
+									"type": "AppendVariable",
+									"dependsOn": [
+										{
+											"activity": "Append Inventry Sets",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "Files",
+										"value": "part_relationships"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "If Condition1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@variables('Files')",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Execute Pipeline1",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "Copy_Lego_HTTP_ADLS_Themes",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"FileName": {
+												"value": "@item()",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
+						}
+					}
+				],
+				"parameters": {
+					"LoadAllFiles": {
+						"type": "String"
+					}
+				},
+				"variables": {
+					"Files": {
+						"type": "Array"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Copy_Lego_HTTP_ADLS_Themes')]"
 			]
 		},
 		{

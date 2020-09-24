@@ -281,8 +281,8 @@
 						}
 					},
 					{
-						"name": "Set ListOfFiles",
-						"type": "SetVariable",
+						"name": "ForEach1",
+						"type": "ForEach",
 						"dependsOn": [
 							{
 								"activity": "If Condition1",
@@ -293,11 +293,31 @@
 						],
 						"userProperties": [],
 						"typeProperties": {
-							"variableName": "ListOfFiles",
-							"value": {
-								"value": "Load@{length(variables('Files'))} files : @{join(variables('Files'), ',')}",
+							"items": {
+								"value": "@variables('Files')",
 								"type": "Expression"
-							}
+							},
+							"activities": [
+								{
+									"name": "Execute Pipeline1",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "Copy_Lego_HTTP_ADLS_Themes",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"FileName": {
+												"value": "@item()",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
 						}
 					}
 				],
@@ -309,14 +329,13 @@
 				"variables": {
 					"Files": {
 						"type": "Array"
-					},
-					"ListOfFiles": {
-						"type": "String"
 					}
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Copy_Lego_HTTP_ADLS_Themes')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/orchestration_imdb')]",
