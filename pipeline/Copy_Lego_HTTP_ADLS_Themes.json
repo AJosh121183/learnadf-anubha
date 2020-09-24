@@ -17,11 +17,11 @@
 				"userProperties": [
 					{
 						"name": "Source",
-						"value": "title.basics.tsv.gz"
+						"value": "@{pipeline().parameters.FileName}.csv"
 					},
 					{
 						"name": "Destination",
-						"value": "imdb//title.basics.tsv"
+						"value": "imdb//@{pipeline().parameters.FileName.csv}"
 					}
 				],
 				"typeProperties": {
@@ -54,23 +54,41 @@
 							"referenceName": "ADLS_anubhaadls",
 							"type": "LinkedServiceReference"
 						},
-						"path": "imdb/errors/title"
+						"path": "imdb/errors/@{pipeline().parameters.FileName}.csv"
 					}
 				},
 				"inputs": [
 					{
 						"referenceName": "HTTP_imdb_title",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"FileName": {
+								"value": "@pipeline().parameters.FileName",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [
 					{
 						"referenceName": "ADLS_imdb_title",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"FileName": {
+								"value": "@pipeline().parameters.FileName",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}
 		],
+		"parameters": {
+			"FileName": {
+				"type": "String",
+				"defaultValue": "FileName"
+			}
+		},
 		"annotations": [],
 		"lastPublishTime": "2020-09-16T14:57:27Z"
 	},
