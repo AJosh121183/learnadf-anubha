@@ -1,6 +1,104 @@
 {
 	"name": "VariableTesting",
 	"properties": {
+		"activities": [
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Files",
+					"value": [
+						"colors",
+						"inventories",
+						"inventory_parts",
+						"part_categories",
+						"parts",
+						"sets",
+						"themes"
+					]
+				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@pipeline().parameters.LoadAllFiles",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Append Inventry Sets",
+							"type": "AppendVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Files",
+								"value": "inventory_sets"
+							}
+						},
+						{
+							"name": "Append part_relationships",
+							"type": "AppendVariable",
+							"dependsOn": [
+								{
+									"activity": "Append Inventry Sets",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Files",
+								"value": "part_relationships"
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Set variable2",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": []
+			}
+		],
+		"parameters": {
+			"ListOfFiles": {
+				"type": "bool",
+				"defaultValue": "False"
+			},
+			"LoadAllFiles": {
+				"type": "String"
+			}
+		},
+		"variables": {
+			"Files": {
+				"type": "Array"
+			},
+			"ListOfFiles": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
