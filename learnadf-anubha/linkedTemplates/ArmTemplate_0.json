@@ -339,11 +339,11 @@
 						"userProperties": [
 							{
 								"name": "Source",
-								"value": "@{pipeline().parameters.FileName}.csv"
+								"value": "@{pipeline().parameters.FileName}"
 							},
 							{
 								"name": "Destination",
-								"value": "imdb//@{pipeline().parameters.FileName.csv}"
+								"value": "imdb//@{pipeline().parameters.FileName}"
 							}
 						],
 						"typeProperties": {
@@ -377,7 +377,7 @@
 									"type": "LinkedServiceReference"
 								},
 								"path": {
-									"value": "imdb/errors/@{pipeline().parameters.FileName}.csv",
+									"value": "imdb/errors/@{pipeline().parameters.FileName}",
 									"type": "Expression"
 								}
 							}
