@@ -5,12 +5,21 @@
 			"referenceName": "HTTP_Lego",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"FileName": {
+				"type": "string",
+				"defaultValue": "FileName"
+			}
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "HttpServerLocation",
-				"relativeUrl": "title.basics.tsv.gz"
+				"relativeUrl": {
+					"value": "@{dataset().FileName}.csv",
+					"type": "Expression"
+				}
 			},
 			"columnDelimiter": "\t",
 			"rowDelimiter": "\n",
@@ -19,44 +28,7 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": [
-			{
-				"name": "tconst",
-				"type": "String"
-			},
-			{
-				"name": "titleType",
-				"type": "String"
-			},
-			{
-				"name": "primaryTitle",
-				"type": "String"
-			},
-			{
-				"name": "originalTitle",
-				"type": "String"
-			},
-			{
-				"name": "isAdult",
-				"type": "String"
-			},
-			{
-				"name": "startYear",
-				"type": "String"
-			},
-			{
-				"name": "endYear",
-				"type": "String"
-			},
-			{
-				"name": "runtimeMinutes",
-				"type": "String"
-			},
-			{
-				"name": "genres",
-				"type": "String"
-			}
-		]
+		"schema": []
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
 }
