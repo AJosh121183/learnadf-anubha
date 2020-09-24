@@ -154,9 +154,6 @@
 					}
 				],
 				"parameters": {
-					"ListOfFiles": {
-						"type": "bool"
-					},
 					"LoadAllFiles": {
 						"type": "String"
 					}
