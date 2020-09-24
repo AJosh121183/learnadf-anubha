@@ -69,7 +69,7 @@
 				}
 			},
 			{
-				"name": "Set variable2",
+				"name": "Set ListOfFiles",
 				"type": "SetVariable",
 				"dependsOn": [
 					{
@@ -79,7 +79,14 @@
 						]
 					}
 				],
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ListOfFiles",
+					"value": {
+						"value": "Load@{length(variables('Files'))} files : @{join(variables('Files'), ',')}",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"parameters": {
